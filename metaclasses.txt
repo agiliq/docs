@@ -1,0 +1,5 @@
+Understanding Metaclasses
+---------------------------
+
+Lets write a Django model.
+

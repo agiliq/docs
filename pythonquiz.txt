@@ -1,0 +1,202 @@
+Very Easy
+
+1. How can you get the last element of a list called lst.
+
+a. lst[:1]
+b. lst[:-1]
+c. lst[1]
+d. lst[-1]
+
+2. How can you get the length of an iterable, itr.
+
+a. length(itr)
+b. len(itr)
+c. itr.len
+d. itr.length
+
+3. In python strings are mutable,
+
+a. False
+b. True
+c. Depends on whether GIL is enabled.
+d. Depends on whether StringBuffer library is installed.
+
+4. Which of these lines is not a valid way to declare a class.
+
+a.
+
+    class A:
+        pass
+        
+b.
+
+    class B(object):
+        pass
+        
+c.
+
+    class C extends object:
+        pass
+        
+d.
+
+    type('D', (object, ), {})
+    
+5. What is the value of 10/3
+
+a. 3
+b. 3.0
+c. 3.3333333
+d. Runtime error
+
+
+
+Medium
+
+#. 
+What is a possible value of ''.join([random.choice('abcdef') for i in range(4)])
+
+a. [1, 2, 3, 4]
+b. [0, 1, 2, 3]
+c. [0, 1, 2, 3, 4]
+d. 'efdd'
+e. [0, 1, 0, 1]
+f. Runtime error
+
+#.
+
+How would you get a date 30 days from today. 
+
+a. 
+datetime.datetime.now() + 30
+
+b.
+
+datetime.now() + 30
+
+c.
+datetime.datetime.now() + datetime.timedelta(30)
+
+d.
+
+datetime.now() + datetime.timedelta(30)
+
+
+# Among the expressiosn given below, which of these will give al a list with even numbers less than 100
+
+A. filter(lambda x: x%2==0, range(100))
+B. filter(lambda x: x%2, range(100))
+C. [el for el in range(100) if el % 2]
+D. [el for el in range(100) if el % 2==0]
+E. (el for el in xrange(100) if el % 2==0)
+F. (el for el in xrange(100) if el % 2)
+
+a. A and C
+b. B and D
+c. B, D, E
+d. B, D, F
+e. A, c, E
+
+#.
+
+What is the out put of this type('String')
+
+a. 'String'
+b. type('String')
+c. 'str'
+d. <type 'str'>
+
+# The given code snipped is equivalent to,
+
+@permission_required('has_magic_powers')
+def foo(req):
+    pass
+    
+a. foo(req, permission_required('has_magic_powers'))
+b.
+
+def foo(req):
+    pass
+permission_required('has_magic_powers')(foo)
+
+c.
+def foo(req):
+    pass
+permission_required('has_magic_powers', foo)
+
+d.
+
+def foo(req):
+    pass
+permission_required(foo, 'has_magic_powers', )
+
+#.
+
+What does the code snippet below print?
+
+        def fib():
+            a, b = 0, 1
+            while 1:
+                yield b
+                a, b = b, a+b
+                
+        foo = fib()
+        print foo
+        
+a. 0
+b. 1
+c. Infinite sequence of fibbnici numbers.
+d. None
+e. None of the above
+
+#. Which of the following is False in a boolean context?
+
+A. 0
+B. []
+C. ''
+D. {}
+E. None
+
+a. Only A
+b. Only A and E
+c. A, C, E
+d. A, B, C, E
+E. All
+
+
+#. What exception is raised when you do, 
+int('')
+
+a. NotANumberException
+b. NullPointerException
+c. ValueError
+d. IndexError
+e. StopIterationError
+
+
+#. What exception is raised when you do, 
+(el for el in xrange(100))[102]
+
+a. Return a value, and doesnot raise an error.
+b. NullPointerException
+c. ValueError
+d. IndexError
+e. TypeError
+
+
+
+#. Hard
+
+#.
+
+What is the output of the folowing code snippet.
+
+class Z(type):
+    def __new__(cls, name, bases, attrs, ):
+        return str
+        
+class A(object):
+    __metaclass__ = Z
+
+
+

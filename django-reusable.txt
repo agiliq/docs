@@ -1,0 +1,83 @@
+Recently I updated a lot of our old apps to be compatible with Django 1.0 and be reusable. Before we go further, let me define a _ Reusable Django App _.
+
+	A Django app is reusable if 
+	
+	*  It is app. (That is, it is not a project, and has no settings.py/manage.py.)
+	* It can be dropped in an existing project, and only places where the project should need editing are `settings.py` `installed_apps` and the projects level `urls.py`.
+	* It can be used in the project with an arbitrary url prefix.
+	
+The updated apps were written initially for Django 0.96 and were coupled to the projects, so it was not possible to include them in other projects. After updating these I was able to include them
+in in a single project as a part of this site.
+
+The apps were,
+
+*  blogango [demo](http://uswaretech.com/blogango/) [source](https://svn.uswaretech.com/blogango/trunk/blogango/)
+*  djikiki [demo](http://uswaretech.com/djikiki/) [source](https://svn.uswaretech.com/djikiki/trunk/djikiki/)
+
+The following apps from 7days7apps.com
+
+*  pastebin [demo](http://uswaretech.com/pastebin/) [source](https://svn.uswaretech.com/7days7apps/trunk/djpaste/pastebin/)
+*  jobs [demo](http://uswaretech.com/jobs/) [source](https://svn.uswaretech.com/7days7apps/trunk/djobboard/jobs/)
+*  pollngo [demo](http://uswaretech.com/polls/) [source](https://svn.uswaretech.com/7days7apps/trunk/polls/pollngo/)
+*  todidlist [demo](http://uswaretech.com/todo/) [source](https://svn.uswaretech.com/7days7apps/trunk/todolist/todidlist/)
+*  mytym [demo](http://uswaretech.com/timesheets/) [source](https://svn.uswaretech.com/7days7apps/trunk/timetrack/mytym)
+*  answrs [demo](http://uswaretech.com/answrs/) [source](https://svn.uswaretech.com/7days7apps/trunk/answers/answrs/)
+*  kamp [demo](http://uswaretech.com/kamp/) [source](https://svn.uswaretech.com/7days7apps/trunk/kasekamp/kamp/)
+
+-------------------------------------------
+
+Without further ado hints to help you make your apps reusable,
+
+##### Always use models.permalink with `get_absolute_url` type of functions: 
+
+If you have code like
+
+	def get_absolute_url(self):
+		return '/project/%s/' % self.name
+		
+this is tying your app to a specific url structure. (and hence to a specific project). Instead a code like,
+	
+	@models.permalink
+	def get_absolute_url(self):
+		return ('app.views.view_func', [self.name])
+allows you to use this app with any arbitrary url structure in the project.
+
+##### Always use `reverse` when you use `HttpResponseRedirect`. 
+For a similar reason as 1. Of course this does not apply if you are doing `return HttpResponseRedirect('.')`
+
+##### Always use `{% url %}` with `<a href="`. 
+For reasons as in 1.
+
+##### Do all imports assuming your apps exist on Pythonpath. So your imports should look like
+
+	from myapp.models import ModelClass
+	
+and not
+
+	from myproject.myapp.models import ModelClass
+	
+as this ties the app to a specific project.
+
+##### Use named urlpatterns. Prefix app name to url patterns names.
+
+Named url patterns make point 2 and 3 much simpler. Prefixing appname to url pattern name makes removes name collision and simplifies using `reverse` and `{% url %}`.
+
+##### Serve your static media from /MEDIA_URL/<app_name>/:
+
+Each app could be using a stylesheet named style.css. If we were serving media from user /MEDIA_URL/, we are tied to one stylesheet for the whole project. If you were serving it from /MEDIA_URL/<app_name>/ it is as simple
+as symlinking a directory.
+
+After using these pointers, your apps are decoupled from the project. To use the apps with Usware site, all we needed to do was to add the following lines to svn:externals
+
+	blogango https://svn.uswaretech.com/blogango/trunk/blogango/
+	djikiki https://svn.uswaretech.com/djikiki/trunk/djikiki/
+	...............
+	pastebin https://svn.uswaretech.com/7days7apps/trunk/djpaste/pastebin	site_media/kamp https://svn.uswaretech.com/7days7apps/trunk/kasekamp/site_media/kamp/
+
+And put the apps in `settings.INSTALLED_APPS` and include the app urls.py in the projects urls.py.
+
+---------------------
+
+Need an `Amazing Webapp` built? [Talk to Usware](http://uswaretech.com/contact/). Need help with any of these apps? [Talk to Usware](http://uswaretech.com/contact/).
+   
+

@@ -1,0 +1,61 @@
+There are a lot of places where we want to calculate the documents related to another document. This article describes a way to do so. The technique described here is used for findind related links at [42 Topics](http://42topics.com/). An example page
+can be seen [here](http://42topics.com/startups/50380/related/). A similar technique can be used at many other places such as finding Ads matchinh a page, detecting spam etc.
+
+
+26: snippet
+27: snippet = ' '.join(word_list[2000:2100])
+28: snippet
+29: snippet = ' '.join(word_list[3000:3100])
+30: snippet
+31: snippet_words_count = {}
+32: for word in snippet.split():
+33:
+    snippet_words_count[word] = snippet_words_count.get(word, 0) + 1
+    
+
+34: snippet_words_count
+35: snippet_words_probs = {}
+36: snippet_prob_dict = {}
+37: for word in snippet_words_count.iterkeys():
+38:
+    snippet_prob_dict[word] = float(snippet_words_count[word])/len(word_list)
+    
+
+39: snippet_prob_dict
+40:
+for words in snippet_prob_dict.iterkeys():
+    pass
+41: 
+42: bayesian_probs = {}
+43: for words in snippet_prob_dict.iterkeys():
+44:
+    bayesian_probs[words] = snippet_prob_dict[words]/prob_dict[word]
+    
+
+45: bayesian_probs
+46: snippet_prob_dict['Alice']
+47: prob_dict['Alice']
+48: snippet_prob_dict['is']
+49: snippet_prob_dict['to']
+50: prob_dict['to']
+51: snippet_prob_dict['to']
+52: snippet_prob_dict['to']/prob_dict['to']
+53: for word in snippet_prob_dict.iterkeys():
+54:
+    bayesian_probs[wors] = snippet_prob_dict[word]/prob_dict[word]
+    
+
+55: for word in snippet_prob_dict.iterkeys():
+56:
+    bayesian_probs[word] = snippet_prob_dict[word]/prob_dict[word]
+    
+
+57: bayesian_probs
+58: histogram = [ (value, key) for key, value in theDict.iteritems() ]
+59: histogram = [ (value, key) for key, value in bayesian_probs.iteritems() ]
+60: hsitogram.sort()
+61: histogram.sort()
+62: histogram.reverse()
+63: hsitogram
+64: histogram
+65: _ip.magic("hist ")

@@ -1,0 +1,32 @@
+Benchmarking web frameworks.
+-------------------------------------------------------------
+
+The first step to uilding highj performance web apps is benchmarking them. The simplest 
+benchmarking tool is `ab`, which stands for Apache Benchmark, which is bundled with apache
+web server. So if you are on *nix system, there is a good chance that you already have this nifty benchmarking tool available.
+
+What are we benchmarking?
+---------------------------------------------------
+
+This is a quick and dirty alalysis, and by NO MEANS claims to be scientific. Its aim is more to give a general
+overview of web application performance, and to explain how benchmarking works, not as a comparative study.
+
+We are benchmarking,
+
+0. A Html Page
+1. A Django Application
+2. A Php Application
+3. A Symphony Application
+4. A rails application
+5. Frontpage of Wordpress
+6. Frontpage of a basic Django blog.
+
+How are we benchmarking?
+----------------------------------------------
+
+We have a EC2 Instance running as our web and database server (Both on the same machine). The `ab` command is run from another EC2 Instance in a different availibilty zone.
+All the applications talk to the same database. All applications except the blogs, show the same thing. 
+
+There are two tables in our database, `Department` and `Employee`, with a few entries. Our applications show a department and its Employees.
+
+How are we

@@ -1,0 +1,6 @@
+1. Break setting.py in settings.py and localsettings.py
+2. Put your forms in forms.py
+3. Use generic views wherever possible.
+4. Use a hierarchical template inheritance scheme.
+5. Always use named Url patterns.
+6. Your apps are on your Pythonpath

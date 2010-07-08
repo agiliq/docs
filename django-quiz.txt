@@ -1,0 +1,397 @@
+    ### Easy
+    
+    1. You have a class defined as
+    
+        class Post(models.Model):
+            name = models.CharField(max_length=100)
+            is_active = models.BooleanField(default=False)
+        
+    You create multiple objects of this type. If you do
+    Post.objects.get(is_active=false),
+    
+    what exceptions is raised?
+    
+    a. MultipleObjectsReturned
+    b. ManyObjectsReturned
+    c. SyntaxError
+    d. MultipleModelReturned
+    e. ManyModelReturned
+    
+    2. Where is the function render_to_response defined?
+    
+    a. django.views
+    b. django.shortcuts
+    c. django.templates
+    d. django.contrib.templates
+    e. django.contrib.shortcuts
+    
+    3. What is the default name for the table created for model named Post
+    in application blog
+    
+    a. post_blog
+    b. blog_post
+    c. postblog
+    d. blogpost
+    e. Postblog
+    
+    4. How do you send a 302 redirect using django?
+    
+    a. return HttpRedirectResponse()
+    b. return HttpResponseRedirect()
+    c. return HttpRedirectResponse(permanent=True)
+    d. return HttpResponseRedirect(permanent=True)
+    e. return HttpRedirectResponse
+    
+    5. In django.contrib.auth, Users passwords are kept in what form?
+    a. Plain text
+    b. Hashed
+    c. Encrypted
+    d. Hashed then encrypted
+    3. Encrypted then hashed
+    
+    6. Which of the following is correct way to find out if a request uses
+    HTTP POST method?
+    
+    a. request.is_post() == True
+    b. request.METHOD == 'post'
+    c. request.METHOD == 'POST'
+    d. request.method == 'post'
+    e. request.method == 'POST'
+    
+    7. Generic views have access to request context.
+    
+    a. True
+    b. False
+    c. Default is True but can be set to False by GENERIC_REQUEST_CONTEXT in settings.
+    d. Default is False but can be set to True by GENERIC_REQUEST_CONTEXT in settings.
+    e. Can not be determined without extra information.
+    
+    8. The current released version of Django is
+    
+    a. 0.96
+    b. 1.0
+    c. 1.1
+    d. 1.2
+    e. Vyper logix 2.0
+    
+    9. Which of these is a correct context_processor?
+    
+    a.
+    
+    def featured_posts(request):
+        return Post.objects.filter(is_featured=True)
+        
+    b.
+    
+    def featured_posts(request):
+        return {'featured_posts': Post.objects.filter(is_featured=True)}
+        
+    c.
+    
+    def featured_posts(request, response):
+        return Post.objects.filter(is_featured=True)
+        
+    d.
+    
+    def featured_posts(request, response):
+        return {'featured_posts': Post.objects.filter(is_featured=True)}
+    
+    e.     
+    def featured_posts(request, response):
+        response.write('featured_posts'= Post.objects.filter(is_featured=True))
+        
+    10. Which of the following is a valid Middleware?
+    
+    a.
+    
+    class LatestPostMiddleware:
+        def process_request(request):
+            request.latest_post = Post.objects.latest()
+            
+    b.
+    
+    class LatestPostMiddleware(django.middlewares.BaseMiddleWare):
+        def process_request(request):
+            request.latest_post = Post.objects.latest()
+    
+    c.
+    
+    class LatestPostMiddleware(django.middlewares.BaseMiddleWare):
+        def process_request(request):
+            return {'latest_post': Post.objects.latest()}
+    
+    d.
+    
+    class LatestPostMiddleware():
+        def process_request(request):
+            return {'latest_post': Post.objects.latest()}
+            
+    e.
+    
+    class LatestPostMiddleware():
+        def process_request(request):
+            request.write('latest_post'= Post.objects.latest())
+    
+    
+    #Moderate
+    
+    11. In the model below which line can be removed for the class to work
+    
+    class Post(models.Model):
+        name = models.CharField(max_length = 100)#Line 1
+        desc = models.TextField()#Line 2
+        post = models.ForeignKey(Blog)#Line 3
+        blog = models.ForeignKey(Blog)#Line 4
+        
+    a. Line 1
+    b. Line 2
+    c. Line 3
+    d. Line 4
+    e. Either of line 3 or 4
+    
+    12. Who can access the admin site in Django?
+    
+    a. user with is_super_user True
+    b. user with is_staff True
+    c. user with is_admin True
+    d. Either of a or b
+    e. Either of a, b, c
+    
+    13. Which of the following code is closest to login_required decorator in Django?
+    
+    a.
+    
+    def login_required2(request):
+        if request.user.is_authenticated():
+            return True
+        else:
+            return False
+            
+    b.
+    
+    def login_required2(request, view_func):
+        def check_login(request):
+            if request.is_authenticated() and request.has_permissions(request.REQUIRED_PERMISSIONS):
+                return view_function(request)
+            else:
+                return HttpResponseRedirect('/login/')
+        return check_login(view_func)
+        
+    c.
+    
+    def login_required2(request, view_func):
+        def check_login(request):
+            if request.is_authenticated():
+                return view_function(request)
+            else:
+                return HttpResponseRedirect('/login/')
+        return check_login(view_func)
+    
+    d.
+    
+    def login_required2(view_func):
+        def new_func(request):
+            if request.user.is_authenticated():
+                return view_func(request)
+            else:
+                return HttpResponseRedirect('/login/')
+        return new_func
+            
+    
+    e.
+    
+    def login_required2(view_func):
+        def new_func(request):
+            if request.user.is_authenticated() and request.has_permissions(request.REQUIRED_PERMISSIONS):
+                return view_func(request)
+            else:
+                return HttpResponseRedirect('/login/')
+        return new_func
+    
+    
+    14. Which of the following is a valid method to model Many to many relation ship in Django?
+    
+    a.
+    
+    class Foo(models.Model):
+        bar = models.ManyToManyField(Bar)
+    
+    class Bar(models.Model):
+        foo = models.ManyToManyField(Foo)
+    
+    b.
+    
+    class Foo(models.Model):
+        bar = models.ForeignKey(Bar)
+    
+    class Bar(models.Model):
+        foo = models.ForeignKey(Foo)
+        
+    c.
+    
+    class Foo(models.Model):
+        bar = models.ManyToManyField(Bar)
+    
+    class Bar(models.Model):
+        pass
+        
+    d. both B and C
+    
+    e. All a, b, c
+    
+    15. Which of the following is not included by default in TEMPLATE_CONTEXT_PROCESSORS
+    
+    a. django.core.context_processors.auth
+    b. django.core.context_processors.debug
+    c. django.core.context_processors.i18n
+    d. django.core.context_processors.media
+    e. django.core.context_processors.request
+    
+    16. Which of these is the currect way to validate uniqueness of a field named "slug" in a form
+    subclassing django.form.Forms.
+    
+    a.
+    
+    def clean(self):
+        try:
+            Post.objects.get(slug = self.cleaned_data['slug'])
+            raise forms.Error(ValidationError, 'This slug already exists')
+        except Post.DoesNotExist:
+            return self.cleaned_data
+    
+    
+    b.
+    
+    def clean(self):
+        try:
+            Post.objects.get(slug = self.cleaned_data['slug'])
+            raise ValidationError('This slug already exists')
+        except Post.DoesNotExist:
+            return self.cleaned_data
+    
+    c.
+    
+    def clean_slug(self):
+        try:
+            Post.objects.get(slug = self.cleaned_data['slug'])
+            raise forms.Error(ValidationError, 'This slug already exists')
+        except Post.DoesNotExist:
+            return self.cleaned_data
+    
+    
+    d.
+    
+    def clean_slug(self):
+        try:
+            Post.objects.get(slug = self.cleaned_data['slug'])
+            raise ValidationError('This slug already exists')
+        except Post.DoesNotExist:
+            return self.cleaned_data
+    
+    e.
+    
+    17. To add custom commands to your project setup, you need to,
+    
+    1. Add management/command/commandname.py to your django app.
+    2. Add management/command/commandname.py to your django project.
+    3. Add command/commandname.py to your django app.
+    4. Add command/commandname.py to your django project.
+    5. Add management/command/manage.py to yout django project.
+    
+    18. You want to enable caching for Django pages for AnonymousUser, which of these
+    is a valid way to do this.
+    
+    a.
+    
+    
+    MIDDLEWARE_CLASSES = (
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.cache.CacheMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+    )
+    
+    b.
+    
+    MIDDLEWARE_CLASSES = (
+        'django.middleware.common.CommonMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.cache.CacheMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+    )
+    
+    c.
+    
+    MIDDLEWARE_CLASSES = (
+        'django.middleware.common.CommonMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.middleware.cache.CacheMiddleware',
+    )
+    
+    d.
+    
+    MIDDLEWARE_CLASSES = (
+        'django.middleware.cache.CacheMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+    )
+    
+    e.
+    
+    MIDDLEWARE_CLASSES = (
+        'django.middleware.cache.CacheMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+    )
+    
+    19.
+    
+    Consider the urlconf given below
+    
+        from django.conf.urls.defaults import *
+    
+        urlpatterns = patterns('news.views',
+            (r'^articles/2003/$', 'year_archive_2003'),
+            (r'^articles/(\d{4})/', 'year_archive'),
+            (r'^articles/2003/(\d{2})/$', 'month_archive_2003'),
+            (r'^articles/(\d{4})/(\d{2})/', 'month_archive'),
+            (r'^articles/(\d{4})/10/', 'month_archive_october'),
+        )
+    What view is called when accessing /articles/2003/10/
+      
+    a. year_archive_2003
+    b. year_archive
+    c. month_archive_2003
+    d. month_archive
+    e. month_archive_october
+    
+    20.
+    
+    Consider the urlpatterns.
+    
+        urlpatterns = patterns('blogapp.views',
+            (r'^list/(?P<year>\d{4})/(?P<month>[a-z]{3})/$','archive_month'),
+        )
+        
+    Which if the following is a valid view function which will be called on accesing
+    /list/2009/jun/
+    
+    a. def archive_month(request):
+            ...
+            
+    b. def archive_month(request, *args):
+    
+    c. def archive_month(request, **kwargs):
+    
+    d. def  archive_month(request, year, month,):
+    
+    e. Both c and d
+        
+        
+    # Hard
+    
+    None yet
+    
+

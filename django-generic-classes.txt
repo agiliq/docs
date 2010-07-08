@@ -1,0 +1,4 @@
+Class based generic views
+-----------------------------
+
+Class based 
