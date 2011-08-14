@@ -1,0 +1,40 @@
+1. Optimize your images.
+2. Compress your CSS and JS
+3. Add a favicon
+4. Create custom 404 and 500 error pages
+6. Remove directory indexes
+7. Ensure you are not in debug mode
+8. Add your site to Google Webmaster
+9. Spell check your website
+10. Validate your Html and CSS.
+11. Canonical urls
+12. Your admin passwords are secure
+13. Remove placeholder texts
+14. Login, Admin and Payment pages are on a HTTPs page.
+15. Server restarts critical services on a service shutdown
+16. Legal pages are in place
+17. Your servers doesn't allow password based ssh login
+18. You have stress tested your site
+
+1. http://www.smushit.com/ysmush.it/
+2. http://developer.yahoo.com/yui/compressor/
+3. http://www.chami.com/html-kit/services/favicon/
+4. http://www.useit.com/alertbox/404_improvement.html
+6. http://www.cyberciti.biz/faq/enabling-apache-file-directory-indexing/
+7. http://airbrakeapp.com/pages/home
+8. 
+9. http://www.texttrust.com/ http://checkdog.com/
+10. http://validator.w3.org/
+11. http://no-www.org/
+12. 
+13. http://www.lipsum.com/
+14. http://www.rapidssl.com/
+15. http://supervisord.org/
+16.
+17. 
+18. http://httpd.apache.org/docs/2.0/programs/ab.html
+
+
+http://www.boxuk.com/blog/the-ultimate-website-launch-checklist
+http://www.conversationmarketing.com/2007/03/website_launch_checklist.htm
+http://boagworld.com/business-strategy/pre-launch-checklist/
