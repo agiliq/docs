@@ -1,8 +1,8 @@
 Benchmarking web frameworks.
 -------------------------------------------------------------
 
-The first step to uilding highj performance web apps is benchmarking them. The simplest 
-benchmarking tool is `ab`, which stands for Apache Benchmark, which is bundled with apache
+The first step to building a high performance web apps is benchmarking them. The simplest 
+benchmarking tool is `ab`(Apache Benchmark), which is bundled with Apache
 web server. So if you are on *nix system, there is a good chance that you already have this nifty benchmarking tool available.
 
 What are we benchmarking?
