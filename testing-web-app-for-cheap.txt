@@ -1,0 +1,22 @@
+How to test your web app for cheap
+
+You are done building your SaaS app and need to start testing. You want to test functionality, usability, scalability. You want this to be more thourough than asking your friends, family and pets. There is a (SaaS) app for that.
+
+Functionality:
+
+You want people to start hitting your website, doing monkey testing, look no further than 99tests. (www.99tests.com). They are a crowd-sourced testing company which pays users to come to your site, work to a test specs and do log bugs. They then pay money to the top testers, who logged most bugs. For about 400$, you can get 30 people to be brutal to your website.
+
+Usability:
+
+FeedbackArmy.com is a similar croudsourced testing tool, but for usability. For $15, you can get 10 people to come to your site and do the usability tasks you ask, and provide feedback.
+
+UserTesting.com takes this to the nest level. For $39 one person will create a 10 minute video of using your site. Watching the video of people struggle with the basic tasks is very illuminating. You can filter by demographics or income.
+
+Performance:
+
+browsermob.com is a app which can take your test scripts and run them on thousand of browsers. It can take a selenium script or you can use their scripting language. Plans start at $500.
+
+
+
+
+
