@@ -1,3 +1,8 @@
+The website post launch checklist.
+
+If you have already launched your website, and checked the launch checklist here, here is the next checklist to optimize your site.
+
+
 1. Optimize your images.
 
 Upto 90% of your page's bandwidth is used up by images. Optimizing it provides one of the best returns on your time. Smushit, http://www.smushit.com/ysmush.it/, can automate this.
@@ -25,6 +30,12 @@ Priority: Medium
 The default 404 and 500 error pages from the server are pretty useless. You should add a more useful page, along with your branding.
 
 Read more http://www.useit.com/alertbox/404_improvement.html
+
+Priority: Medium
+
+5. Reserve social media names
+
+Register your site's name at twitter and other social networks where you plan to interact.
 
 Priority: Medium
 
