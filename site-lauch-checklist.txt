@@ -50,7 +50,7 @@ You should have a contact page and make it easy to contact you and email you.
 
 12. Admins get emails on broken links.
 
-Pages are moved around, and links break. These links can be extrnal or internal. If you are notified when a user gets a 404, you can respond. (For example put the redirect at the old url.)
+Pages are moved around, and links break. These links can be external or internal. If you are notified when a user gets a 404, you can respond. (For example put the redirect at the old url.)
 
 13. Has a whats new section and/or a RSS feed.
 
