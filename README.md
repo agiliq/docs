@@ -1,4 +1,3 @@
-This is a dump of things in the old usware blog at uswaretech.com/blog and 
-the new agiliq blog at agiliq.com/blog/.
+This is a dump of things in the [Agiliq blog](http://agiliq.com/blog/).
 
-MOst of the thinsg here are in a markdown format.
+Most of the things here are in the markdown format.
