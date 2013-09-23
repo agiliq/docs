@@ -1,0 +1,340 @@
+Rails Active records and Django models are more similar than they are different.
+
+#### Defining models
+
+
+Both Django and Rails keep the canonical database representation in ruby or python.
+
+    #Django
+
+    class Post(models.Model):
+        name = models.CharField(max_length = 100, )
+        slug = models.CharField(max_length = 100, )
+        body = models.TextField()
+        
+    class Comments(models.Model):
+        post = models.ForeignKey(Post)
+        username = models.CharField(max_length = 100, )
+        comment = models.TextField()
+
+
+
+    #Rails
+
+    #db/schema.rb
+    ActiveRecord::Schema.define(:version => 20100319195739) do
+    
+      create_table "comments", :force => true do |t|
+        t.string   "username"
+        t.text     "comment"
+        t.integer  "post_id"
+        t.datetime "created_at"
+        t.datetime "updated_at"
+      end
+    
+      create_table "posts", :force => true do |t|
+        t.string   "name"
+        t.string   "slug"
+        t.text     "body"
+        t.datetime "created_at"
+        t.datetime "updated_at"
+      end
+    
+    end
+    
+    #In apps models
+    class Post < ActiveRecord::Base
+      has_many :comments
+    end
+    
+    class Comment < ActiveRecord::Base
+      belongs_to :post
+    end
+
+
+The main difference is that Django keeps it one file, while rails has it split over many files. In Django, the foreign key is specified only on the Child model
+via `models.ForeignKey` but in Rails both sides of relationship need to be specified via `has_many` and `belongs_to`.
+
+
+####  Create a object without saving it
+
+    
+    In [1]: from blog.models import *
+    
+    In [2]: post = Post()
+    
+    In [3]: print post.id
+    None
+
+
+
+    irb(main):001:0> post = Post.new
+    => #<Post id: nil, name: nil, slug: nil, body: nil, created_at: nil, updated_at: nil>
+    irb(main):002:0> post.id
+    => nil
+
+#### Set values and save to the database
+
+
+    In [4]: post.name = "Hello"
+    
+    In [5]: post.slug = "hello"
+    
+    In [6]: post.body = "Hello, this is a post"
+    
+    In [8]: post.save()
+    
+    In [9]: post.id
+    Out[9]: 1
+    
+    
+    irb(main):001:0> post = Post.new
+    => #<Post id: nil, name: nil, slug: nil, body: nil, created_at: nil, updated_at: nil>
+    irb(main):002:0> post.id
+    => nil
+    irb(main):003:0> post.name = "Hello"
+    => "Hello"
+    irb(main):004:0> post.slug = "hello"
+    => "hello"
+    irb(main):005:0>  post.body = "Hello, this is a post"
+    => "Hello, this is a post"
+    irb(main):006:0> post.save()
+    => true
+    irb(main):007:0> post.id
+    => 2
+
+There is not much to see here, both DJango and Rails create the object in essentially the same way. Until you call save, the objects are not saved to the database.
+
+
+####  Find object by the primary key.
+
+
+    In [10]: Post.objects.get(id = 1)
+    Out[10]: <Post: Post object>
+
+    irb(main):008:0> pst = Post.find(2)
+    => #<Post id: 2, name: "Hello", slug: "hello", body: "Hello, this is a post", created_at: "2010-03-19 20:11:34", updated_at: "2010-03-19 20:11:34">
+
+What Rails calls `find`, Django calls `get`.
+
+####  More create methods
+
+    In [12]: Post.objects.create(name="Hi", slug="hi", body="Hi hi hi.")
+    Out[12]: <Post: Post object>
+
+
+    irb(main):012:0> Post.create(:name=>"Hi", :slug=>"Hi", :body=>"Hi hi hi")
+    => #<Post id: 4, name: "Hi", slug: "Hi", body: "Hi hi hi", created_at: "2010-03-19 20:17:31", updated_at: "2010-03-19 20:17:31">
+
+
+    In [14]: Post.objects.get_or_create(name="Hi")
+    Out[14]: (<Post: Post object>, False)
+
+    irb(main):015:0> Post.find_or_create_by_name("Hi")
+    => #<Post id: 4, name: "Hi", slug: "Hi", body: "Hi hi hi", created_at: "2010-03-19 20:17:31", updated_at: "2010-03-19 20:17:31">
+
+You can create in one step without calling `save` via a `create` in both Rails and Django.
+While rails has dynamically named methods, Django accepts named parameters in `filter` and `get_or_create`.
+
+
+####  More find methods
+
+
+    In [15]: Post.objects.filter(id__in = [1, 2, 3])
+    Out[15]: [<Post: Post object>, <Post: Post object>]
+    
+    irb(main):017:0> Post.find(1, 2, 3)
+    => [#<Post id: 1, name: nil, slug: nil, body: nil, created_at: "2010-03-19 19:58:31", updated_at: "2010-03-19 19:58:31">, #<Post id: 2, name: "Hello", slug: "hello", body: "Hello, this is a post", created_at: "2010-03-19 20:11:34", updated_at: "2010-03-19 20:11:34">, #<Post id: 3, name: nil, slug: nil, body: nil, created_at: "2010-03-19 20:16:04", updated_at: "2010-03-19 20:16:04">]
+    
+    In [16]: Post.objects.get(name="Hi")
+    Out[16]: <Post: Post object>
+    
+    
+    irb(main):023:0> Post.find_by_name("Hi")
+    => #<Post id: 4, name: "Hi", slug: "Hi", body: "Hi hi hi", created_at: "2010-03-19 20:17:31", updated_at: "2010-03-19 20:17:31">
+    
+    
+    In [17]: Post.objects.all()
+    Out[17]: [<Post: Post object>, <Post: Post object>]
+    
+    
+    irb(main):024:0> Post.find(:all)
+    => [#<Post id: 1, name: nil, slug: nil, body: nil, created_at: "2010-03-19 19:58:31", updated_at: "2010-03-19 19:58:31">, #<Post id: 2, name: "Hello", slug: "hello", body: "Hello, this is a post", created_at: "2010-03-19 20:11:34", updated_at: "2010-03-19 20:11:34">, #<Post id: 3, name: nil, slug: nil, body: nil, created_at: "2010-03-19 20:16:04", updated_at: "2010-03-19 20:16:04">, #<Post id: 4, name: "Hi", slug: "Hi", body: "Hi hi hi", created_at: "2010-03-19 20:17:31", updated_at: "2010-03-19 20:17:31">]
+    
+    In [18]: pp = Post.objects.filter(name="Hi")
+    
+    In [19]: pp
+    Out[19]: [<Post: Post object>]
+    In [20]: pp[0]
+    Out[20]: <Post: Post object>
+    
+    
+    irb(main):032:0> pp = Post.where({:name=>"Hi"})
+    => #<ActiveRecord::Relation:0xb6aedc04 @arel=nil, @select_values=[], @last=nil, @order_values=[], @group_values=[], ...
+    irb(main):033:0> pp[0]
+    => #<Post id: 4, name: "Hi", slug: "Hi", body: "Hi hi hi", created_at: "2010-03-19 20:17:31", updated_at: "2010-03-19 20:17:31">
+    
+    In [21]: Post.objects.filter(name__in = ["Hi", "Hello"])
+    Out[21]: [<Post: Post object>, <Post: Post object>]
+    
+    irb(main):034:0> pp = Post.where({:name=>["Hi", "Hello"]})
+    => #<ActiveRecord::Relation:0xb6ae4c6c @arel=nil, @select_values=
+    ....
+    irb(main):035:0> pp[0]
+    => #<Post id: 2, name: "Hello", slug: "hello", body: "Hello, this is a post", created_at: "2010-03-19 20:11:34", updated_at: "2010-03-19 20:11:34">
+    irb(main):036:0> pp[1]
+    => #<Post id: 4, name: "Hi", slug: "Hi", body: "Hi hi hi", created_at: "2010-03-19 20:17:31", updated_at: "2010-03-19 20:17:31">
+    
+    
+    In [29]: p = Post.objects.filter(name__in = ["Hi", "Hello"]).only("name")
+    
+    irb(main):041:0> pp = Post.where({:name=>["Hi", "Hello"]}).select("name")
+    
+    
+The query capability and syntax are similar with major differences being,
+
+1. Rails has dynamically named finders, while Django accepts keyword arguments for same.
+2. SQL operators like `in` are fired by `__` in Django, while Rails infers it based on the data type.
+
+
+####  Limit, offset and order
+    
+    In [30]: p = Post.objects.filter(name__in = ["Hi", "Hello"])[:1]
+    
+    In [31]: p
+    Out[31]: [<Post: Post object>]
+    
+    pp = Post.where({:name=>["Hi", "Hello"]}).select("name").limit(1)
+    
+    irb(main):049:0> pp[0]
+    => #<Post name: "Hello">
+    irb(main):050:0> pp[1]
+    => nil
+    
+    => #<Post id: 4, name: "Hi", slug: "Hi", body: "Hi hi hi", created_at: "2010-03-19 20:17:31", updated_at: "2010-03-19 20:17:31">
+    irb(main):067:0> pp = Post.where({:name=>["Hi", "Hello"]}).limit(1).offset(1)
+    
+    irb(main):067:0> pp[0]
+    => #<Post id: 4, name: "Hi", slug: "Hi", body: "Hi hi hi", created_at: "2010-03-19 20:17:31", updated_at: "2010-03-19 20:17:31">
+    irb(main):068:0> pp[1]
+    => nil
+    
+    In [34]: p = Post.objects.filter(name__in = ["Hi", "Hello"])[1:2]
+    
+    In [35]: p[0].name
+    Out[35]: u'Hi'
+    
+    In [36]: p[1].name
+    ---------------------------------------------------------------------------
+    IndexError                                Traceback (most recent call last)
+    
+    /home/shabda/Code/Django/Weblog/<ipython console> in <module>()
+    
+    /usr/local/lib/python2.6/dist-packages/django/db/models/query.py in __getitem__(self, k)
+        185             qs = self._clone()
+        186             qs.query.set_limits(k, k + 1)
+    --> 187             return list(qs)[0]
+        188         except self.model.DoesNotExist, e:
+        189             raise IndexError(e.args)
+    
+    IndexError: list index out of range
+    
+    
+    In [39]: p = Post.objects.order_by("name")[1:2]
+    
+    In [40]: p
+    Out[40]: [<Post: Post object>]
+    
+    
+    irb(main):069:0> pp = Post.order("name").limit(1).offset(1)
+    
+Again fairly similar, both Django and rails provide ordering, offset and limits, while Django does
+this via array slicing, Rails does this via functions. Also both Django and Rails allow method chaining, and Sql is only
+evaluated lazily when needed.
+
+
+####  Specifying Model associations.
+
+
+Django: `models.ForeignKey`
+Rails: `belongs_to`
+
+Django: `models.ManyToManyField`
+Rails: `has_and_belongs_to_many`
+
+Django: `models.OneToOneField`
+Rails: `has_one`
+
+Django: No needed
+Rails: has_many
+
+Again Rails and Django are similar with Django automatically inferring the reverse relationships.
+
+
+####  Polymorphic Associations and Generic Relations
+
+
+You possibly have pictures in your application which can be attached to any object. Both Django and Rails provide options for it via
+Polymorphic Associations and Generic Relations
+
+    
+    class Picture(models.Model):
+        content_type = models.ForeignKey(ContentType)
+        object_id = models.PositiveIntegerField()
+        content_object = generic.GenericForeignKey()
+        
+    class Article(models.Model):
+        body = models.TextField()
+        picture =  generic.GenericRelation(Picture)
+        
+    class BioGraphy(models.Model):
+        bio  = models.TextField()
+        picture = generic.GenericRelation(Picture)
+    
+    
+
+    class Picture < ActiveRecord::Base
+      belongs_to :imageable, :polymorphic => true
+    end
+    
+    class Employee < ActiveRecord::Base
+      has_many :pictures, :as => :imageable
+    end
+    
+    class Product < ActiveRecord::Base
+      has_many :pictures, :as => :imageable
+    end
+
+
+####  Self Joins
+
+
+Self joins are a special case of Foreign key where a Object has a relationship to itself. Both Django and Rails handle it normally via their FK mechanisms
+
+
+    
+    class Employee(models.Model):
+        manager = models.ForeignKey("self", related_name = "subordinates")
+        
+    
+    class Employee < ActiveRecord::Base
+      has_many :subordinates, :class_name => "Employee",
+        :foreign_key => "manager_id"
+      belongs_to :manager, :class_name => "Employee"
+    end
+    
+References
+----------------
+
+[guides.rails.info](http://guides.rails.info/)
+[djangoproject.com/documentation/](http://djangoproject.com/documentation/)
+
+
+
+
+
+
+
+
+
+
